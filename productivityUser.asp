@@ -409,7 +409,7 @@ function wndOpenPopUp(sURL, sName, sWidth)
 		
 </script>
 <header>
-	<a href="index.asp"><img src="img/logo.jpg" width="200" height="66"></a>
+	<a href="index.asp"><img src="img/logo.png" width="200" height="66"></a>
     <h1>2. Items Published per User</h1>
 </header>
 <form  name="frm-submit" id="frm-submit" method="POST">

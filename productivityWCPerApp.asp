@@ -177,7 +177,7 @@ function wndOpenPopUp(sURL, sName, sWidth)
 </script>
 
 <header>
-	<a href="index.asp"><img src="img/logo.jpg" width="200" height="66"></a>
+	<a href="index.asp"><img src="img/logo.png" width="200" height="66"></a>
     <h1>3. Word Count per App</h1>
 </header>
 
