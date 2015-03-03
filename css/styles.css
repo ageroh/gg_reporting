@@ -1,0 +1,130 @@
+/* Compiled Less CSS File */
+/* Generated from "styles.css" */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700&subset=latin,greek);
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,greek);
+body {
+  color: #333;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+body.home {
+  background: url(../img/back.jpg) no-repeat;
+  background-size: cover;
+}
+header {
+  background: #FFF;
+  padding: 15px;
+  box-shadow: 0 3px 30px #333;
+  position: relative;
+}
+header h1 {
+  float: right;
+}
+.container.home {
+  width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1em;
+  box-shadow: 0 -30px 30px #333333;
+  min-height: 500px;
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, rgba(255, 255, 255, 0.5)), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80ffffff', endColorstr='#00ffffff', GradientType=0);
+  /* IE6-9 */
+
+}
+.container.home .btnCont a {
+  float: left;
+  width: 315px;
+  margin: 1em 2.5em;
+  text-align: center;
+  color: #FFF;
+  text-decoration: none;
+  background: #0465b0;
+  border-radius: 2px;
+  border-left: solid 5px #333;
+  height: 100px;
+}
+.container.home .btnCont a strong {
+  display: block;
+  font-size: 1.8em;
+}
+.container.home .btnCont a span {
+  padding: 0 .5em;
+  display: block;
+  font-size: 1.1em;
+}
+.inner header {
+  margin-bottom: 1em;
+  box-shadow: 0 1px 3px #666;
+}
+table {
+  color: #545454;
+  font-family: 'Open Sans', sans-serif;
+}
+table a {
+  color: #0492ca;
+}
+.display {
+  text-align: center;
+}
+.total {
+  color: red;
+}
+tfoot {
+  display: table-header-group;
+}
+.dataTables_length,
+.dataTables_filter,
+#frm-submit {
+  margin: .5em 1em;
+}
+.leftAlign {
+  text-align: left;
+}
+#selectEntities {
+  width: 900px;
+}
+table.dataTable thead th,
+table.dataTable thead td {
+  border-bottom: 1px solid #0492ca;
+}
+table.dataTable tfoot th,
+table.dataTable tfoot td {
+  border-top: 1px solid #0492ca;
+}
+table.dataTable.hover tbody tr:hover,
+table.dataTable.hover tbody tr.odd:hover,
+table.dataTable.hover tbody tr.even:hover,
+table.dataTable.display tbody tr:hover,
+table.dataTable.display tbody tr.odd:hover,
+table.dataTable.display tbody tr.even:hover {
+  background-color: #d5edf6;
+}
+table.dataTable.display tbody tr:hover > .sorting_1,
+table.dataTable.display tbody tr.odd:hover > .sorting_1,
+table.dataTable.display tbody tr.even:hover > .sorting_1,
+table.dataTable.order-column.hover tbody tr:hover > .sorting_1,
+table.dataTable.order-column.hover tbody tr.odd:hover > .sorting_1,
+table.dataTable.order-column.hover tbody tr.even:hover > .sorting_1 {
+  background-color: #d5edf6;
+}
