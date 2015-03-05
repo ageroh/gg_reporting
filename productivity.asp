@@ -143,7 +143,6 @@ function wndOpenPopUp(sURL, sName, sWidth)
 
 })(jQuery);
 	
-	
 		
 </script>
 <%
@@ -174,7 +173,7 @@ function wndOpenPopUp(sURL, sName, sWidth)
 	rs.Open strSQL, conn
 %>
 <header>
-	<a href="index.asp"><img src="img/logo.jpg" width="200" height="66"></a>
+	<a href="index.asp"><img src="img/logo.png" width="200" height="66"></a>
     <h1>1. Items Published per App</h1>
 </header>
 

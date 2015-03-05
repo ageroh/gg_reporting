@@ -30,17 +30,23 @@ $(document).ready(function() {
 		,"lengthMenu": [ [-1, 10, 25, 50], ["All", 10, 25, 50 ] ]
 		
 		, "columnDefs": [
-            {
-                "targets": [ 6 ],
-                "visible": false,
-                "searchable": false
-            }
-			,{
-                "targets": [ 3 ],
-                "sClass" : "leftAlign"
-            } 
-			
-        ]
+				    {
+					"targets": [ 6 ],
+					"visible": false,
+					"searchable": false
+				    }
+						,{
+					"targets": [ 3 ],
+					"sClass" : "leftAlign"
+				    } 
+						
+				]
+		, "fnDrawCallback": function( oSettings ) {
+			/* Open Entity Page from ADM.GREEKGUIDE ! */
+			$("#GGresults").find(".popAdm").on('click', function(){
+				DoOpenEntity(parseInt($(this).text().trim()));
+			});
+		    }
 		,initComplete: function () {
             var api = this.api();
  

@@ -32,6 +32,7 @@ $(document).ready(function() {
 <a href="productivityWCPerApp.asp"><strong>3. Word Count per App</strong><span>Word count of items published per Month, Year, Destination &amp; Content Type.</span></a>
 <a href="WordCountGroupEntities.asp"><strong>4. Word Count - Custom</strong><span>Word count of selected items published per Month, Year, Destination &amp; Content Type.</span></a>
 <a href="ContactDetailsPerApp.asp"><strong>5. Contact Details Clients</strong><span>Check all contact details for a location and type(tel, website, email, address, etc).</span></a>
+<a href="productivityUserTotalWC.asp"><strong>6. Word Count Total</strong><span>Counts total word count for all entities for a user per location.</span></a>
 </div>
 </div>
 

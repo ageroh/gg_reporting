@@ -36,7 +36,7 @@ $(document).ready(function() {
  
             api.columns().indexes().flatten().each( function ( i ) {
                 var column = api.column( i );
-				if( i >= 0 && i < 3)
+				if( i >= 0 && i < 3  )
 				{
 					var select = $('<select><option value=""></option></select>')
 						.appendTo( $(column.footer()).empty() )
@@ -77,6 +77,7 @@ $(document).ready(function() {
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(11)").text("")
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(12)").text("")
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(13)").text("")
+	
 	//$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(1)").text("")
 	
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(1)").text( table.column( 0, {page:'current'} ).data().sum() );

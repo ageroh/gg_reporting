@@ -29,7 +29,12 @@ $(document).ready(function() {
 		  "order": [[ 1, "asc" ]]
 		, "pagingType": "full_numbers"
 		, "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
-        
+		, "fnDrawCallback": function( oSettings ) {
+			/* Open Entity Page from ADM.GREEKGUIDE ! */
+			$("#GGresults").find(".popAdm").on('click', function(){
+				DoOpenEntity(parseInt($(this).text().trim()));
+			});
+		    }
 		, "columnDefs": [
 			 {
                 "render": function ( data, type, row ) {

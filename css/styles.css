@@ -101,6 +101,9 @@ tfoot {
 .leftAlign {
   text-align: left;
 }
+.hideAll{
+	display:none;
+}
 #selectEntities {
   width: 900px;
 }
