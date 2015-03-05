@@ -24,13 +24,46 @@ $.fn.dataTable.Api.register( 'column().data().sum()', function () {
     } );
 } );
  	
-
+function telphonize(tel){
+  return tel;
+}
 
 $(document).ready(function() {
     var table = $('#GGresults').DataTable( {
-		"order": [[ 1, "asc" ]]
-		,"lengthMenu": [ [-1, 10, 25, 50], ["All", 10, 25, 50 ] ]
-		//, "columnDefs": [ { "visible": false,  "targets": [ 6] } ]
+		  "order": [[ 1, "asc" ]]
+		, "lengthMenu": [ [-1, 10, 25, 50], ["All", 10, 25, 50 ] ]
+		, "columnDefs": 
+		 [
+		    {
+			"render": function ( data, type, row ) {
+			    return 'EN: '+ row[3]+' </br>GR: <i>' + row[4] + '</i>' ;		// Entity Column
+			},
+			"targets": 3
+		    }			
+		  ,
+		    {
+			"render": function ( data, type, row ) {
+			    if( row[5] != '' && row[6] != '')
+				return 'EN: '+ row[5]+' </br>GR: <i>' + row[6] + '</i>' ;		// Entity Column
+			    return '';
+			},
+			"targets": 5
+		    }		  
+		  ,
+		    {
+			"render": function ( data, type, row ) {
+			   if( row[7] != '' && row[8] != '')
+			    return 'tel: '+ telphonize(row[7]) +' </br>email: <i>' + row[8] + '</i>' ;		// Entity Column
+			   return '';
+			},
+			"targets": 7
+		    }		  		    
+		  , { 
+			"visible": false
+		      ,  "targets": [ 1, 4, 6, 8 ]
+	            }
+		 ]
+		
 		,initComplete: function () {
             var api = this.api();
  
