@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv='Content-Type' content='text/html; charset=windows-1253' />
 	<meta http-equiv='Content-Language' content='el' />
-	<title>GREEK GUIDE - Total WC for all Items per User</title>
+	<title>GREEK GUIDE - Total Word Count for all Items per User</title>
 	<!-- DataTables CSS -->
 	<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">	
@@ -240,7 +240,7 @@ function wndOpenPopUp(sURL, sName, sWidth)
 </script>
 <header>
 	<a href="index.asp"><img src="img/logo.png" width="200" height="66"></a>
-    <h1>6. Total WC Published per User</h1>
+    <h1>6. Total Word Count Published per User</h1>
 </header>
 <form  name="frm-submit" id="frm-submit" method="POST">
 <table>
@@ -325,6 +325,7 @@ function wndOpenPopUp(sURL, sName, sWidth)
   </td>
 </tr>
 <tr><td></td><td><input type="submit" id="sbm-button" value="Show"/></td></tr>
+<tr><td></td><td><font color="red"><b>Results with one day latency</b></font></td></tr>
 </table>  
 
 

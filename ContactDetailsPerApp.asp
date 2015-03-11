@@ -15,17 +15,69 @@
 
 <script>
 
-	
-$.fn.dataTable.Api.register( 'column().data().sum()', function () {
-    return this.reduce( function (a, b) {
-        var x = parseFloat( a ) || 0;
-        var y = parseFloat( b ) || 0;
-        return x + y;
-    } );
-} );
- 	
-function telphonize(tel){
-  return tel;
+
+
+function webSplit(web){
+    sRes = "";
+    splited = web.split(",");
+    splited.forEach(function(entry){ 
+        // fix entry with appropriate href call
+        link = entry.trim();
+        if( !(link.indexOf("http://") == 0 ||  link.indexOf("https://") == 0) )
+	  link = "http://" + link;
+   
+        found = '<a href="' + link + '" target="_blank">' + link +  "</a>";
+ 	sRes = sRes + found + "<br />";
+   });
+   return sRes;
+}
+
+
+function callClient(sUrl, telephoneClient)
+{
+     // Always call client
+    //if (confirm("Really dial " + telephoneClient + " NOW ?") == true) {
+	img = new Image();
+
+	// handle fake failure
+	img.onerror = function(){
+		// do somthing wheen pick up the phone.
+	//  alert("Thank you for calling : " + telephoneClient);
+	};
+
+	img.src = sUrl;
+    //} 
+}
+
+
+function telephonize(tel, telephoneUser){
+	sRes = "";
+	splited = tel.split(",");
+	splited.forEach(function(entry){ 
+		// trim each string, replace +30 +30
+		entry = entry.trim().replace("+30", "").replace("+0030", "");
+		//entry = entry.trim().replace(/\s/g, "");
+		
+		// regex : telephone
+		re = /(\d{3,}[\s]*\d{1,}[\s]*\d{1,})/; 
+		aFound = entry.match(re); // suppose is found, then replace it with (href and necessary info)
+		if(aFound != null)
+		{
+			found = aFound[0];
+			// fix entry with appropriate href call
+			telephoneClient = found.trim().replace(/\s/g, "");
+			entry = entry.replace(found, 
+					'<a  href="javascript:void(0);"   onclick="callClient(\'http://10.168.10.190/call/call.php?src=' + telephoneUser +'&dst=' + telephoneClient + '\'  , ' + telephoneClient 
+						+ ' )"  class="callPhone">'
+						+ telephoneClient 
+					+'</a>'
+				);
+		}
+		
+		sRes = sRes + entry + "<br />";
+	});
+
+	return sRes;
 }
 
 $(document).ready(function() {
@@ -53,50 +105,37 @@ $(document).ready(function() {
 		    {
 			"render": function ( data, type, row ) {
 			   if( row[7] != '' && row[8] != '')
-			    return 'tel: '+ telphonize(row[7]) +' </br>email: <i>' + row[8] + '</i>' ;		// Entity Column
+			    return 'tel: '+ telephonize(row[7], $("#selectedUsersPhone").text()) +' </br>email: <i>' + row[8] + '</i>' ;		// Entity Column
 			   return '';
 			},
 			"targets": 7
 		    }		  		    
-		  , { 
+
+		  ,
+		    {
+			"render": function ( data, type, row ) {
+			   if( row[9] != '')
+			    return  webSplit(row[9]);
+			   return '';
+			},
+			"targets": 9
+		    }		  		    
+		    
+		    , { 
 			"visible": false
 		      ,  "targets": [ 1, 4, 6, 8 ]
 	            }
 		 ]
-		
-		,initComplete: function () {
-            var api = this.api();
- 
-            api.columns().indexes().flatten().each( function ( i ) {
-                var column = api.column( i );
-				if( i >= 0 && i < 3  )
-				{
-					var select = $('<select><option value=""></option></select>')
-						.appendTo( $(column.footer()).empty() )
-						.on( 'change', function () {
-							var val = $(this).val();
-	 
-							column
-								.search( val ? '^'+val+'$' : '', true, false )
-								.draw();
-
-							$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(1)").text( table.column( 0, {page:'current'} ).data().sum() );
-							$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(1)").addTemporaryClass("total", 1500);
-						} );
-	 
-					column.data().unique().sort().each( function ( d, j ) {
-						select.append( '<option value="'+d+'">'+d+'</option>' )
-					} );
-				}
-
-            } );
-        }
-    } );
+	} );
 	
 	/* Open Entity Page from ADM.GREEKGUIDE ! */
 	$("#GGresults").find(".popAdm").on('click', function(){
 		DoOpenEntity(parseInt($(this).text().trim()));
 	});
+	
+	// initialize vars 
+	$("#usersPhoneInternalID").val(localStorage.getItem("internalPhone"));
+	$("#selectAppID").val($("#selectedAppHdn").text());
 	
 	// hide footer 2 columns
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(2)").text("")
@@ -111,11 +150,20 @@ $(document).ready(function() {
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(12)").text("")
 	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(13)").text("")
 	
-	//$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(1)").text("")
-	
-	$("#GGresults").find("tfoot tr:nth-child(1) th:nth-child(1)").text( table.column( 0, {page:'current'} ).data().sum() );
+	$("#sbm-button").click( function( event ) {
+	  if( ! localStorage.getItem("internalPhone") )
+	  {
+	    localStorage.setItem('internalPhone', $("#usersPhoneInternalID").val());
+	  }
+	  else if ( localStorage.getItem("internalPhone") != $("#usersPhoneInternalID").val() )
+	  {
+	    localStorage.setItem('internalPhone', $("#usersPhoneInternalID").val());
+	  }
+	});
 		
-} );
+});
+
+
 	
 function DoOpenEntity(iEntityID) 
 {
@@ -199,10 +247,16 @@ function wndOpenPopUp(sURL, sName, sWidth)
     <h1>5. Contact Details Location</h1>
 </header>
 
+
 <form  name="frm-submit" id="frm-submit" method="POST">
-Select Destination: 
+<div id="resultDIV" ></div>
+<table>
+ <tr>
+  <td>Destination</td>
+  <td>
 
 <%
+	
 	Dim conn2
 	Dim ConnString 
 	Dim strCon1
@@ -224,7 +278,6 @@ Select Destination:
 	%> 
 
 
-
 	<select name="AppID" id="selectAppID">
 		<option value="-1" selected> - Please Select - </option>
 		<%
@@ -241,8 +294,22 @@ Select Destination:
 		SET strCon1 = Nothing
 		%>
 	</select>
+   </td>
+   </tr>
+   <tr>
+     <td>Internal Telephone</td>
 
-<input type="submit" id="sbm-button" value="Show"/>
+     <td>
+      <input type="text" id="usersPhoneInternalID" name="usersPhoneInternalID">
+     </td>
+   </tr>
+   <tr>
+      <td></td>
+      <td><input type="submit" id="sbm-button" value="Show"/></td>
+   </tr>
+</table>   
+
+
 </form> 
 
 
@@ -252,7 +319,9 @@ Select Destination:
 <%
 	Dim cnnSQL
 	Dim cmdStoredProc
-	Dim rs, strConn, AppID
+	Dim rs, strConn, AppID, telInternal
+	
+	
 	
 	'This code creates a connection object.
 	Set cnnSQL = Server.CreateObject("ADODB.Connection")
@@ -274,6 +343,13 @@ Select Destination:
 	AppID =  Request.Form("AppID")
 	Session("xAppIDCotact") = AppID
 	
+	telInternal = Request.Form("usersPhoneInternalID")
+	Session("xusersPhoneInternal") = telInternal
+	If Not ( IsNumeric(telInternal) and Len(Trim(telInternal)) = 4 ) Then
+	   ' later maybe add a check if tel exists in https://10.168.10.190/phonebook/ !
+	   AppID = -1
+	End If
+	
 	'Retrieve all records.
 	cmdStoredProc.CommandText = "USP_GET_CONTACT_DETAILS_LOCATION_TYPE"
 	cmdStoredProc.CommandType = 4
@@ -294,7 +370,7 @@ Select Destination:
 	<tr>
 		<%
 		for each x in rs.Fields
-				response.write("<th>" & ucase(x.name) & "</th>")
+				Response.write("<th>" & ucase(x.name) & "</th>")
 		next
 		%>
 	</tr>
@@ -303,7 +379,7 @@ Select Destination:
 	<tr>
 		<%
 		for each x in rs.Fields
-				response.write("<th>" & ucase(x.name) & "</th>")
+				Response.write("<th>" & ucase(x.name) & "</th>")
 		next
 		%>
 	</tr>
@@ -326,12 +402,6 @@ Select Destination:
 			%>
 			<td>
 			<% Response.Write("<a href='mailto:"& x.value  & "' >" & x.value & "</a>") %>
-			</td>
-			<%
-		ElseIf cnt = 9 Then
-			%>
-			<td>
-			<% Response.Write("<a href='"& x.value  & "' target='_blank'>" & x.value & "</a>") %>
 			</td>
 			<%
 		Else
@@ -358,6 +428,7 @@ set strConn=nothing
 </table>
 
 <div id="selectedAppHdn" style="display:none;"><%= CInt(Session("xAppIDCotact")) %></div>
+<div id="selectedUsersPhone" style="display:none;"><%= Session("xusersPhoneInternal") %></div>
 
 
 </body>
