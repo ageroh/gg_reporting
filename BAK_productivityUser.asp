@@ -23,8 +23,46 @@ $.fn.dataTable.Api.register( 'column().data().sum()', function () {
     } );
 } );
  	
+function getData(str)
+{
+	if (str=="")
+	{
+		document.getElementById("txtHint").innerHTML="";
+		return;
+	}
+
+  $.ajax({
+		url: "productivityUserAJAX.asp?Userid=" + str,
+		/*data: {
+			 txtsearch: $('#appendedInputButton').val()
+		},*/
+		type: "GET",
+		dataType : "html",
+		success: function( htmlRes ) {
+			 $('#txtHint').html( htmlRes );
+		},
+		error: function( xhr, status ) {
+			 alert( "Sorry, there was a problem!" );
+		},
+		complete: function( xhr, status ) {
+			 alert( "The request is complete!" );
+		}
+	})
+	
+}
+	
 
 $(document).ready(function() {
+		
+		$( "#frm-submit" ).submit(function( event ) {
+		  alert( "Handler for .submit() called." );
+		  getData( $("#selectUserID").val() );
+		  
+		  event.preventDefault();
+		});
+
+
+
     var table = $('#GGresults').DataTable( {
 		  "order": [[ 1, "asc" ]]
 		, "pagingType": "full_numbers"
@@ -418,7 +456,7 @@ function wndOpenPopUp(sURL, sName, sWidth)
     <h1>2. Items Published per User</h1>
 </header>
 <form  name="frm-submit" id="frm-submit" method="POST">
-
+User: 
 
 <%
 
@@ -447,13 +485,11 @@ function wndOpenPopUp(sURL, sName, sWidth)
 	set drs = conn2.execute(strSQL)
 	%> 
 
-<table>
-	<tr>
-		<td>User: </td>
-		<td>
-		<select name="Userid" id="selectUserID">
-			<option value="-1" selected> - Please Select - </option>
-			<%
+
+
+	<select name="Userid" id="selectUserID">
+		<option value="-1" selected> - Please Select - </option>
+		<%
 	
 		do while not drs.eof %>
 
@@ -466,112 +502,13 @@ function wndOpenPopUp(sURL, sName, sWidth)
 		set conn2=nothing
 		SET strCon = Nothing
 		%>
-		</select>
-	  </td>
-	</tr>
-	<tr><td></td><td><input type="submit" id="sbm-button" value="Show"/></td></tr>
-	<tr><td></td><td><font color="red"><b>Results with one day latency</b></font></td></tr>
-</table>  
+	</select>
 
+<input type="submit" id="sbm-button" value="Show"/>
 </form> 
 
-
-<%
-	Dim cnnSQL
-	Dim cmdStoredProc
-	Dim rsList, strConn, Userid
-	
-	'This code creates a connection object.
-	Set cnnSQL = Server.CreateObject("ADODB.Connection")
-	cnnSQL.CursorLocation = 3
-
-	' Connection string.
-	' PRODUCTION: 	strConn = "Provider=sqloledb;Data Source=10.0.64.32;Initial Catalog=GG_Reporting;User Id=ContentAbility_User_165;Password=3E6EA993-5EBA-4648-BF18-83C38D3E26DC"
-	'strConn = "Provider=sqloledb;Data Source=localhost;Initial Catalog=GG_Reporting;User Id=sa;Password=pr1m$diA#"
-	strConn = "Provider=sqloledb;Data Source=10.0.64.32;Initial Catalog=GG_Reporting;User Id=ContentAbility_User_165;Password=3E6EA993-5EBA-4648-BF18-83C38D3E26DC"
-	
-	cnnSQL.Open strConn
-
-	'This code creates a command object.
-	Set cmdStoredProc = Server.CreateObject("ADODB.Command")
-	Set cmdStoredProc.ActiveConnection = cnnSQL
-
-	Userid = "-1"
-	'Retrieve Userid
-	Userid =  Request.Form("Userid")
-	Session("xUserid") = Userid
-	
-	'Retrieve all records.
-	cmdStoredProc.CommandText = "USP_Report_Productivity_Per_User"
-	cmdStoredProc.CommandType = 4
-	cmdStoredProc.CommandTimeout = 1000
-	cmdStoredProc.Parameters.Append cmdStoredProc.CreateParameter("@User_id", 202, 1, 50, Userid) 
-	
-	'This code creates a recordset object.
-	Set rsList = Server.CreateObject("ADODB.Recordset")
-	rsList.CursorType = 3
-
-	Set rsList.Source = cmdStoredProc.Execute
-	rsList.Open
-	
-%>
-
-<table id="GGresults" class="display" cellspacing="0" width="100%" > 
-  <thead>
-	<tr>
-		<%
-		for each x in rsList.Fields
-				response.write("<th>" & ucase(x.name) & "</th>")
-		next
-		%>
-	</tr>
-  </thead>
-   <tfoot>
-	<tr>
-		<%
-		for each x in rsList.Fields
-				response.write("<th>" & ucase(x.name) & "</th>")
-		next
-		%>
-	</tr>
-  </tfoot>
-<tbody>
-  
-<%do until rsList.EOF%>
-	<tr>
-	<%
-	Dim cnt 
-	cnt = 0
-	for each x in rsList.Fields
-		If cnt = 0 Then
-			%>
-			<td> 
-			<% 
-			Response.Write("<a href='#' class='popAdm'>" & x.value & " </a>") %> </td>
-			<%
-		Else
-			%>
-			<td> <% Response.Write(x.value) 
-			%> </td>
-			<%
-		End If	
-		
-		cnt = cnt + 1
-	next
-	%>
-
-		<%rsList.MoveNext%>
-	</tr>
-
-<%
-loop
-rsList.close
-set rsList=nothing
-set strConn=nothing
-SET cmdStoredProc = Nothing
-%>
-</table>
-</tbody>
+<div id="txtHint">
+</div>
 
 <div id="selectedUserHdn" style="display:none;"><%= CInt(Session("xUserid")) %></div>
 	
